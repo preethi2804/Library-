@@ -1,72 +1,64 @@
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Scanner;
 
 public class InventoryManager {
-
-    public static void addBook(Scanner sc) {
+    public static void addBook(Scanner scanner) {
         System.out.print("Enter ISBN: ");
-        String isbn = sc.nextLine();
-        System.out.print("Enter Title: ");
-        String title = sc.nextLine();
-        System.out.print("Enter Author: ");
-        String author = sc.nextLine();
-        System.out.print("Enter Cost: ");
-        double cost = Double.parseDouble(sc.nextLine());
+        String isbn = scanner.nextLine();
+        System.out.print("Enter Book Name: ");
+        String name = scanner.nextLine();
+        System.out.print("Enter Author Name: ");
+        String author = scanner.nextLine();
         System.out.print("Enter Quantity: ");
-        int qty = Integer.parseInt(sc.nextLine());
+        int qty = Integer.parseInt(scanner.nextLine());
+        System.out.print("Enter Price: ");
+        double price = Double.parseDouble(scanner.nextLine());
 
-        Book book = new Book(isbn, title, author, cost, qty);
-        Database.books.add(book);
+        Database.books.add(new Book(isbn, name, author, qty, price));
         System.out.println("Book added successfully!");
     }
 
-    public static void modifyBook(Scanner sc) {
-        System.out.print("Enter ISBN to Modify: ");
-        String isbn = sc.nextLine();
-        for (Book b : Database.books) {
-            if (b.getIsbn().equalsIgnoreCase(isbn)) {
-                System.out.print("Enter new Quantity: ");
-                int newQty = Integer.parseInt(sc.nextLine());
-                b.setQuantity(newQty);
+    public static void modifyBook(Scanner scanner) {
+        System.out.print("Enter ISBN of Book to Modify: ");
+        String isbn = scanner.nextLine();
+        for (Book book : Database.books) {
+            if (book.getIsbn().equals(isbn)) {
+                System.out.print("Enter New Quantity: ");
+                int newQty = Integer.parseInt(scanner.nextLine());
+                book.setQuantity(newQty);
                 System.out.println("Book quantity updated.");
                 return;
             }
         }
         System.out.println("Book not found.");
     }
+    
 
-    public static void deleteBook(Scanner sc) {
-        System.out.print("Enter ISBN to Delete: ");
-        String isbn = sc.nextLine();
-        Database.books.removeIf(book -> book.getIsbn().equalsIgnoreCase(isbn));
-        System.out.println("Book deleted if it existed.");
-    }
-
-    public static void viewBooksSorted(Scanner sc) {
-        System.out.println("Sort by: 1. Title  2. Quantity");
-        int choice = Integer.parseInt(sc.nextLine());
-
-        if (choice == 1) {
-            Database.books.sort(Comparator.comparing(Book::getTitle));
-        } else if (choice == 2) {
-            Database.books.sort(Comparator.comparing(Book::getQuantity));
-        }
-
-        for (Book b : Database.books) {
-            b.display();
-        }
-    }
-
-    public static void searchBook(Scanner sc) {
-        System.out.print("Enter book title or ISBN to search: ");
-        String keyword = sc.nextLine().toLowerCase();
-        for (Book b : Database.books) {
-            if (b.getTitle().toLowerCase().contains(keyword) || b.getIsbn().toLowerCase().equals(keyword)) {
-                b.display();
-                return;
+    public static void deleteBook(Scanner scanner) {
+        System.out.print("Enter ISBN of Book to Delete: ");
+        String isbn = scanner.nextLine();
+        Book toRemove = null;
+        for (Book book : Database.books) {
+            if (book.getIsbn().equals(isbn)) {
+                toRemove = book;
+                break;
             }
         }
-        System.out.println("Book not found.");
+        if (toRemove != null) {
+            Database.books.remove(toRemove);
+            System.out.println("Book deleted successfully.");
+        } else {
+            System.out.println("Book not found.");
+        }
+    }
+
+    public static void listBooks() {
+        if (Database.books.isEmpty()) {
+            System.out.println("No books available.");
+            return;
+        }
+        System.out.println("\n--- Book Inventory ---");
+        for (Book book : Database.books) {
+            System.out.println(book);
+        }
     }
 }

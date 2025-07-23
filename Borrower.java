@@ -2,41 +2,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Borrower extends User {
-    private double depositBalance;
-    private List<String> borrowedBooks;
-    private List<String> fineHistory;
+    private double deposit = 1500;
+    private List<Book> borrowedBooks = new ArrayList<>();
 
-    public Borrower(String name, String email, String password) {
-        super(name, email, password, "Borrower");
-        this.depositBalance = 1500.0;
-        this.borrowedBooks = new ArrayList<>();
-        this.fineHistory = new ArrayList<>();
+    public Borrower(String email, String password, String name) {
+        super(email, password, name);
     }
 
-    public double getDepositBalance() {
-        return depositBalance;
-    }
+    public double getDeposit() { return deposit; }
+    public void deductFromDeposit(double amount) { deposit -= amount; }
 
-    public void deductDeposit(double amount) {
-        this.depositBalance -= amount;
-    }
+    public List<Book> getBorrowedBooks() { return borrowedBooks; }
 
-    public void addFine(String reason) {
-        fineHistory.add(reason);
-    }
-
-    public List<String> getFineHistory() {
-        return fineHistory;
-    }
-
-    public void borrowerMenu() {
+    @Override
+    public void showMenu() {
         System.out.println("\n--- Borrower Menu ---");
-        System.out.println("1. View Available Books");
-        System.out.println("2. Borrow Book");
-        System.out.println("3. Return Book");
-        System.out.println("4. Extend Book Tenure");
-        System.out.println("5. Report Lost Book");
-        System.out.println("6. View Borrow History & Fines");
-        System.out.println("7. Logout");
+        System.out.println("1. View Available Books\n2. Borrow Book\n3. View Borrowed Books\n4. Return Book\n5. Report Card/Book Lost\n6. Logout");
     }
 }

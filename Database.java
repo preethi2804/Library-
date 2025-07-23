@@ -1,17 +1,17 @@
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+//import java.util.ArrayList;
+//import java.util.List;
 
 public class Database {
-    public static List<User> users = new ArrayList<>();
+    public static List<Admin> admins = new ArrayList<>();
+    public static List<Borrower> borrowers = new ArrayList<>();
     public static List<Book> books = new ArrayList<>();
 
-    static {
-        
-        users.add(new Admin("Admin One", "admin1@lib.com", "admin123"));
-        users.add(new Borrower("Student One", "student1@lib.com", "stud123"));
-
-        
-        books.add(new Book("B001", "Java Programming", "James Gosling", 499.99, 5));
-        books.add(new Book("B002", "Data Structures", "Mark Allen", 349.50, 3));
+     static {
+        admins.add(new Admin("admin@lib.com", "admin123", "Librarian"));
+        borrowers.add(new Borrower("user@lib.com", "user123", "John Doe"));
+        books.add(new Book("ISBN001", "Java Basics", "James", 5, 300));
+        books.add(new Book("ISBN002", "C Programming", "Dennis", 3, 250));
+        books.add(new Book("ISBN003", "Python Guide", "Guido", 7, 400));
     }
 }

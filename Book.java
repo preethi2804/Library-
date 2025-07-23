@@ -1,39 +1,28 @@
 public class Book {
     private String isbn;
-    private String title;
+    private String name;
     private String author;
-    private double cost;
     private int quantity;
+    private double price;
 
-    public Book(String isbn, String title, String author, double cost, int quantity) {
+    public Book(String isbn, String name, String author, int quantity, double price) {
         this.isbn = isbn;
-        this.title = title;
+        this.name = name;
         this.author = author;
-        this.cost = cost;
         this.quantity = quantity;
+        this.price = price;
     }
 
-    public String getIsbn() {
-        return isbn;
-    }
+    public String getIsbn() { return isbn; }
+    public String getName() { return name; }
+    public String getAuthor() { return author; }
+    public int getQuantity() { return quantity; }
+    public double getPrice() { return price; }
 
-    public String getTitle() {
-        return title;
-    }
+    public void setQuantity(int quantity) { this.quantity = quantity; }
 
-    public double getCost() {
-        return cost;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int qty) {
-        this.quantity = qty;
-    }
-
-    public void display() {
-        System.out.println("ISBN: " + isbn + ", Title: " + title + ", Author: " + author + ", Cost: ₹" + cost + ", Available: " + quantity);
+    @Override
+    public String toString() {
+        return name + " by " + author + " | ISBN: " + isbn + " | Quantity: " + quantity + " | Price: Rs." + price;
     }
 }

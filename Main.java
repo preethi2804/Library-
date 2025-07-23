@@ -9,46 +9,62 @@ public class Main {
             user = AuthenticationService.login(scanner);
             if (user == null) continue;
 
-            if (user instanceof Admin) {
-                Admin admin = (Admin) user;
-                int choice;
-                do {
-                    admin.adminMenu();
+            boolean stayLoggedIn = true;
+
+            if (user instanceof Admin admin) {
+                while (stayLoggedIn) {
+                    System.out.println("\n--- Admin Menu ---");
+                    System.out.println("1. Add Book");
+                    System.out.println("2. View Inventory");
+                    System.out.println("3. Remove Book");
+                    System.out.println("4. Register Borrower");
+                    System.out.println("5. Generate Reports");
+                    System.out.println("6. Logout");
                     System.out.print("Choose: ");
-                    choice = Integer.parseInt(scanner.nextLine());
+
+                    int choice = scanner.nextInt();
+                    scanner.nextLine();
 
                     switch (choice) {
                         case 1 -> InventoryManager.addBook(scanner);
-                        case 2 -> InventoryManager.modifyBook(scanner);
+                        case 2 -> InventoryManager.listBooks();
                         case 3 -> InventoryManager.deleteBook(scanner);
-                        case 4 -> InventoryManager.viewBooksSorted(scanner);
-                        case 5 -> InventoryManager.searchBook(scanner);
-                        case 6 -> System.out.println("Add User: Coming Soon...");
-                        case 7 -> System.out.println("Manage Fine: Coming Soon...");
-                        case 8 -> System.out.println("Reports: Coming Soon...");
-                        case 9 -> System.out.println("Logged out.");
-                        default -> System.out.println("Invalid option.");
+                        case 4 -> AuthenticationService.registerBorrower(scanner);
+                        case 5 -> BorrowingService.generateAdminReports(scanner);
+                        case 6 -> stayLoggedIn = false;
+                        default -> System.out.println("Invalid choice");
                     }
-                } while (choice != 9);
-
-            } else if (user instanceof Borrower) {
-                Borrower borrower = (Borrower) user;
-                int choice;
-                do {
-                    borrower.borrowerMenu();
+                }
+            } else if (user instanceof Borrower borrower) {
+                while (stayLoggedIn) {
+                    System.out.println("\n--- Borrower Menu ---");
+                    System.out.println("1. View Available Books");
+                    System.out.println("2. Borrow Book");
+                    System.out.println("3. View Borrowed Books");
+                    System.out.println("4. Return Book");
+                    System.out.println("5. Extend Tenure");
+                    System.out.println("6. Mark Book as Lost");
+                    System.out.println("7. Report Card Lost");
+                    System.out.println("8. View Fine History");
+                    System.out.println("9. Logout");
                     System.out.print("Choose: ");
-                    choice = Integer.parseInt(scanner.nextLine());
+
+                    int choice = scanner.nextInt();
+                    scanner.nextLine();
+
                     switch (choice) {
-                        case 1 -> InventoryManager.viewBooksSorted(scanner);
-                        case 2 -> System.out.println("Borrow Book: Coming Soon...");
-                        case 3 -> System.out.println("Return Book: Coming Soon...");
-                        case 4 -> System.out.println("Extend: Coming Soon...");
-                        case 5 -> System.out.println("Report Lost: Coming Soon...");
-                        case 6 -> System.out.println("History: Coming Soon...");
-                        case 7 -> System.out.println("Logged out.");
-                        default -> System.out.println("Invalid option.");
+                        case 1 -> InventoryManager.listBooks();
+                        case 2 -> BorrowingService.borrowBook(scanner, borrower);
+                        case 3 -> BorrowingService.viewBorrowedBooks(borrower);
+                        case 4 -> BorrowingService.returnBook(scanner, borrower);
+                        case 5 -> BorrowingService.extendTenure(scanner, borrower);
+                        case 6 -> BorrowingService.markBookLost(scanner, borrower);
+                        case 7 -> BorrowingService.reportCardLost(borrower);
+                        case 8 -> BorrowingService.viewFineHistory(borrower);
+                        case 9 -> stayLoggedIn = false;
+                        default -> System.out.println("Invalid choice");
                     }
-                } while (choice != 7);
+                }
             }
         }
     }

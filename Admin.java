@@ -1,19 +1,11 @@
 public class Admin extends User {
-
-    public Admin(String name, String email, String password) {
-        super(name, email, password, "Admin");
+    public Admin(String email, String password, String name) {
+        super(email, password, name);
     }
 
-    public void adminMenu() {
+    @Override
+    public void showMenu() {
         System.out.println("\n--- Admin Menu ---");
-        System.out.println("1. Add Book");
-        System.out.println("2. Modify Book");
-        System.out.println("3. Delete Book");
-        System.out.println("4. View All Books (Sorted)");
-        System.out.println("5. Search Book");
-        System.out.println("6. Add User (Admin/Borrower)");
-        System.out.println("7. Manage Borrower Fine Limit");
-        System.out.println("8. View Reports");
-        System.out.println("9. Logout");
+        System.out.println("1. Add Book\n2. Modify Book\n3. Delete Book\n4. View All Books\n5. View Reports\n6. Logout");
     }
 }
